@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Dark Theme Calculator</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 320px;
+            margin: auto;
+            border: 10px solid black;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5);
+        }
+
+        .screen {
+            height: 70px;
+            background-color: #181818;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            font-size: 24px;
+            border-bottom: 10px solid black;
+        }
+
+        .blank {
+            background-color: black;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-areas:
+                "C C C division"
+                "seven eight nine multiplication"
+                "four five six minus"
+                "one two three plus"
+                "zero point equation equation";
+        }
+
+        .button {
+            border: none;
+            outline: none;
+            background-color: #222;
+            color: #fff;
+            font-size: 18px;
+            padding: 20px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0.5px 0.5px 0.5px 0.5px;
+        }
+
+        .C {
+            grid-area: C;
+        }
+
+        .seven {
+            grid-area: seven;
+        }
+
+        .eight {
+            grid-area: eight;
+        }
+
+        .nine {
+            grid-area: nine;
+        }
+
+        .plus {
+            grid-area: plus;
+        }
+
+        .four {
+            grid-area: four;
+        }
+
+        .five {
+            grid-area: five;
+        }
+
+        .six {
+            grid-area: six;
+        }
+
+        .minus {
+            grid-area: minus;
+        }
+
+        .one {
+            grid-area: one;
+        }
+
+        .two {
+            grid-area: two;
+        }
+
+        .three {
+            grid-area: three;
+        }
+
+        .multiplication {
+            grid-area: multiplication;
+        }
+
+        .zero {
+            grid-area: zero;
+        }
+
+        .point {
+            grid-area: point;
+        }
+
+        .equation {
+            grid-area: equation;
+        }
+
+        .division {
+            grid-area: division;
+        }
+
+        .button:hover {
+            background-color: #0033cc;
+        }
+
+        .button.operator {
+            background-color: #0066ff;
+        }
+
+        .button.operator:hover {
+            background-color: #0033cc;
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: #0066ff;
+            box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5);
+            align-items: flex-end;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 15px;
+            color: black;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .copyright a {
+            color: black;
+        }
+
+        @media only screen and (max-width: 450px) {
+            .calculator {
+                width: 80%;
+                max-width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="screen" id="output">0</div>
+        <div class="buttons">
+            <!-- <div class="blank"></div>
+            <div class="blank"></div>
+            <div class="blank"></div> -->
+            <button class="button C" onclick="clearOutput()">C</button>
+            <button class="button seven" onclick="appendToOutput('7')">7</button>
+            <button class="button eight" onclick="appendToOutput('8')">8</button>
+            <button class="button nine" onclick="appendToOutput('9')">9</button>
+            <button class="button operator plus" onclick="appendToOutput('+')">+</button>
+            <button class="button four" onclick="appendToOutput('4')">4</button>
+            <button class="button five" onclick="appendToOutput('5')">5</button>
+            <button class="button six" onclick="appendToOutput('6')">6</button>
+            <button class="button operator minus" onclick="appendToOutput('-')">-</button>
+            <button class="button one" onclick="appendToOutput('1')">1</button>
+            <button class="button two" onclick="appendToOutput('2')">2</button>
+            <button class="button three" onclick="appendToOutput('3')">3</button>
+            <button class="button operator multiplication" onclick="appendToOutput('*')">*</button>
+            <button class="button zero" onclick="appendToOutput('0')">0</button>
+            <button class="button point" onclick="appendToOutput('.')">.</button>
+            <button class="button operator equation" onclick="calculateResult()">=</button>
+            <button class="button operator division" onclick="appendToOutput('/')">/</button>
+        </div>
+    </div>
+
+    <footer>
+        <p class="copyright">&copy 2024 Atia Farha | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        function clearOutput() {
+            document.getElementById('output').innerText = '0';
+        }
+
+        function appendToOutput(value) {
+            var output = document.getElementById('output');
+            if (output.innerText === '0' && value !== '.') {
+                output.innerText = value;
+            } else {
+                output.innerText += value;
+            }
+        }
+
+        function calculateResult() {
+            var expression = document.getElementById('output').innerText;
+            var result = eval(expression);
+            document.getElementById('output').innerText = result;
+        }
+    </script>
+</body>
+
+</html>
