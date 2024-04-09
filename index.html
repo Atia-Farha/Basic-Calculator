@@ -7,14 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Basic Calcu">
     <meta property="og:description" content="Basic web calculator">
+    <link rel="icon" type="image/x-icon" href="calcu.png">
     <title>Basic Calcu</title>
     <style>
+        * {
+            margin: 0%;
+            padding: 0%;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             background-color: #121212;
             color: #fff;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -23,9 +28,9 @@
         .calculator {
             width: 100%;
             max-width: 320px;
-            margin: auto;
+            margin: 35px auto;
             border-top: 25px solid black;
-            border-bottom: 10px solid black; 
+            border-bottom: 10px solid black;
             border-left: 10px solid black;
             border-right: 10px solid black;
             border-radius: 10px;
@@ -43,16 +48,17 @@
             font-size: 24px;
             border-bottom: 10px solid black;
         }
-        
+
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-areas:
-                "C C C division"
-                "seven eight nine multiplication"
-                "four five six minus"
-                "one two three plus"
-                "zero point equation equation";
+                "C backspace bracket-s bracket-e"
+                "factorial power root percent"
+                "seven eight nine division"
+                "four five six multiplication"
+                "one two three minus"
+                "zero point equation plus";
         }
 
         .button {
@@ -69,6 +75,38 @@
 
         .C {
             grid-area: C;
+            background-color: #1a1a1a;
+            color: #0066ff;
+        }
+
+        .backspace {
+            grid-area: backspace;
+            background-color: #1a1a1a;
+            color: #0066ff;
+        }
+
+        .bracket-s {
+            grid-area: bracket-s;
+        }
+
+        .bracket-e {
+            grid-area: bracket-e;
+        }
+
+        .power {
+            grid-area: power;
+        }
+
+        .root {
+            grid-area: root;
+        }
+
+        .percent {
+            grid-area: percent;
+        }
+
+        .factorial {
+            grid-area: factorial;
         }
 
         .seven {
@@ -147,7 +185,8 @@
             background-color: #0033cc;
         }
 
-        footer { 
+        footer {
+            margin-top: 25px;
             background-color: #0066ff;
             box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5);
         }
@@ -164,7 +203,7 @@
             color: black;
         }
 
-        @media only screen and (max-width: 450px) {
+        @media all and (max-width: 450px) {
             .calculator {
                 width: 80%;
                 max-width: 80%;
@@ -178,6 +217,13 @@
         <div class="screen" id="output">0</div>
         <div class="buttons">
             <button class="button C" onclick="clearOutput()">C</button>
+            <button class="button backspace" onclick="backspace()">←</button>
+            <button class="button bracket-s" onclick="appendToOutput('(')">(</button>
+            <button class="button bracket-e" onclick="appendToOutput(')')">)</button>
+            <button class="button operator factorial" onclick="factorial()">!</button>
+            <button class="button operator power" onclick="power()">^</button>
+            <button class="button operator root" onclick="squareRoot()">√</button>
+            <button class="button operator percent" onclick="percent()">%</button>
             <button class="button seven" onclick="appendToOutput('7')">7</button>
             <button class="button eight" onclick="appendToOutput('8')">8</button>
             <button class="button nine" onclick="appendToOutput('9')">9</button>
@@ -212,6 +258,47 @@
                 output.innerText = value;
             } else {
                 output.innerText += value;
+            }
+        }
+
+        function percent() {
+            var output = document.getElementById('output');
+            output.innerText = parseFloat(output.innerText) / 100;
+        }
+
+        function squareRoot() {
+            var output = document.getElementById('output');
+            output.innerText = Math.sqrt(parseFloat(output.innerText));
+        }
+
+        function power() {
+            var expression = document.getElementById('output').innerText;
+            var parts = expression.split('^');
+            if (parts.length === 2) {
+                var base = parseFloat(parts[0]);
+                var exponent = parseFloat(parts[1]);
+                var result = Math.pow(base, exponent);
+                document.getElementById('output').innerText = result;
+            } else {
+                // Handle error
+                document.getElementById('output').innerText = 'Error';
+            }
+        }
+
+        function factorial() {
+            var num = parseFloat(document.getElementById('output').innerText);
+            var result = 1;
+            for (var i = 2; i <= num; i++) {
+                result *= i;
+            }
+            document.getElementById('output').innerText = result;
+        }
+
+        function backspace() {
+            var output = document.getElementById('output');
+            output.innerText = output.innerText.slice(0, -1);
+            if (output.innerText === '') {
+                output.innerText = '0';
             }
         }
 
