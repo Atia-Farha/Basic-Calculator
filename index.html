@@ -20,15 +20,17 @@
             background-color: #121212;
             color: #fff;
             font-family: Arial, sans-serif;
-            min-height: 100vh;
+            /* min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; */
+            display: grid;
+            grid-template-row: 1fr auto;
         }
 
         .calculator {
             width: 100%;
             max-width: 320px;
-            margin: auto;
+            margin: 50px auto;
             border-top: 25px solid black;
             border-bottom: 10px solid black;
             border-left: 10px solid black;
@@ -69,7 +71,7 @@
             font-size: 18px;
             padding: 20px 0;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.1s ease;
             margin: 0.5px;
         }
 
@@ -173,21 +175,22 @@
             grid-area: division;
         }
 
-        .button:hover {
+        .button:active {
+            outline: none;
             background-color: #0033cc;
-            color: white;
         }
 
         .button.operator {
             background-color: #0066ff;
         }
 
-        .button.operator:hover {
+        .button.operator:active {
+            outline: none;
             background-color: #0033cc;
         }
 
         footer {
-            margin-top: 50px auto;
+            margin-top: 20px;
             background-color: #0066ff;
             box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5);
         }
@@ -211,6 +214,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
 </head>
 
 <body>
@@ -245,7 +249,7 @@
     </div>
 
     <footer>
-        <p class="copyright">&copy 2024 Atia Farha | All Rights Reserved</p>
+        <p class="copyright">&copy; 2024 Atia Farha | All Rights Reserved</p>
     </footer>
 
     <script>
@@ -255,6 +259,9 @@
 
         function appendToOutput(value) {
             var output = document.getElementById('output');
+            if (value === '.' && output.innerText.includes('.')) {
+                return;
+            }
             if (output.innerText === '0' && value !== '.') {
                 output.innerText = value;
             } else {
@@ -273,21 +280,15 @@
         }
 
         function power() {
-            var expression = document.getElementById('output').innerText;
-            var parts = expression.split('^');
-            if (parts.length === 2) {
-                var base = parseFloat(parts[0]);
-                var exponent = parseFloat(parts[1]);
-                var result = Math.pow(base, exponent);
-                document.getElementById('output').innerText = result;
-            } else {
-                // Handle error
-                document.getElementById('output').innerText = 'Error';
-            }
+            appendToOutput('^');
         }
 
         function factorial() {
-            var num = parseFloat(document.getElementById('output').innerText);
+            var num = parseInt(document.getElementById('output').innerText, 10);
+            if (isNaN(num) || num < 0) {
+                document.getElementById('output').innerText = 'Error';
+                return;
+            }
             var result = 1;
             for (var i = 2; i <= num; i++) {
                 result *= i;
@@ -297,16 +298,21 @@
 
         function backspace() {
             var output = document.getElementById('output');
-            output.innerText = output.innerText.slice(0, -1);
-            if (output.innerText === '') {
+            if (output.innerText.length === 1) {
                 output.innerText = '0';
+            } else {
+                output.innerText = output.innerText.slice(0, -1);
             }
         }
 
         function calculateResult() {
-            var expression = document.getElementById('output').innerText;
-            var result = eval(expression);
-            document.getElementById('output').innerText = result;
+            try {
+                var expression = document.getElementById('output').innerText;
+                var result = math.evaluate(expression);
+                document.getElementById('output').innerText = result;
+            } catch (e) {
+                document.getElementById('output').innerText = 'Error';
+            }
         }
     </script>
 </body>
