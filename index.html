@@ -37,7 +37,8 @@
         .calculator {
             width: 100%;
             max-width: 320px;
-            margin: 2em auto 0;
+            margin: auto;
+	    margin-top: min(2em, auto);
             border: 10px solid var(--border-color);
             border-top-width: 25px;
             border-radius: 10px;
@@ -98,7 +99,7 @@
         }
 
         footer {
-	    margin-top: 2em auto;
+	    margin-top: min(2em, auto);
             background-color: var(--operator-bg);
             box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
             text-align: center;
