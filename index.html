@@ -10,15 +10,24 @@
     <link rel="icon" type="image/x-icon" href="calcu.png">
     <title>Basic Calcu</title>
     <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #fff;
+            --button-bg: #222;
+            --operator-bg: #0066ff;
+            --active-bg: #0033cc;
+            --border-color: black;
+        }
+
         * {
-            margin: 0%;
-            padding: 0%;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #121212;
-            color: #fff;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: Arial, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -28,14 +37,12 @@
         .calculator {
             width: 100%;
             max-width: 320px;
-            margin: auto;
-            border-top: 25px solid black;
-            border-bottom: 10px solid black;
-            border-left: 10px solid black;
-            border-right: 10px solid black;
+            margin: 3em auto 0;
+            border: 10px solid var(--border-color);
+            border-top-width: 25px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0px 0px 30px rgba(0, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 0, 255, 0.5);
         }
 
         .screen {
@@ -46,7 +53,7 @@
             justify-content: flex-end;
             padding: 0 20px;
             font-size: 24px;
-            border-bottom: 10px solid black;
+            border-bottom: 10px solid var(--border-color);
         }
 
         .buttons {
@@ -64,8 +71,8 @@
         .button {
             border: none;
             outline: none;
-            background-color: #222;
-            color: #fff;
+            background-color: var(--button-bg);
+            color: var(--text-color);
             font-size: 18px;
             padding: 20px 0;
             cursor: pointer;
@@ -73,142 +80,43 @@
             margin: 0.5px;
         }
 
-        .C {
-            grid-area: C;
-            background-color: #1a1a1a;
-            color: #0066ff;
-        }
-
-        .backspace {
-            grid-area: backspace;
-            background-color: #1a1a1a;
-            color: #0066ff;
-        }
-
-        .bracket-s {
-            grid-area: bracket-s;
-        }
-
-        .bracket-e {
-            grid-area: bracket-e;
-        }
-
-        .power {
-            grid-area: power;
-        }
-
-        .root {
-            grid-area: root;
-        }
-
-        .percent {
-            grid-area: percent;
-        }
-
-        .factorial {
-            grid-area: factorial;
-        }
-
-        .seven {
-            grid-area: seven;
-        }
-
-        .eight {
-            grid-area: eight;
-        }
-
-        .nine {
-            grid-area: nine;
-        }
-
-        .plus {
-            grid-area: plus;
-        }
-
-        .four {
-            grid-area: four;
-        }
-
-        .five {
-            grid-area: five;
-        }
-
-        .six {
-            grid-area: six;
-        }
-
-        .minus {
-            grid-area: minus;
-        }
-
-        .one {
-            grid-area: one;
-        }
-
-        .two {
-            grid-area: two;
-        }
-
-        .three {
-            grid-area: three;
-        }
-
-        .multiplication {
-            grid-area: multiplication;
-        }
-
-        .zero {
-            grid-area: zero;
-        }
-
-        .point {
-            grid-area: point;
-        }
-
-        .equation {
-            grid-area: equation;
-        }
-
-        .division {
-            grid-area: division;
-        }
-        
         .button:active {
-            outline: none;
-            background-color: #0033cc;
+            background-color: var(--active-bg);
         }
 
         .button.operator {
-            background-color: #0066ff;
+            background-color: var(--operator-bg);
         }
 
         .button.operator:active {
-    							  outline: none;
-            background-color: #0033cc;
+            background-color: var(--active-bg);
+        }
+
+        .C, .backspace {
+            background-color: #1a1a1a;
+            color: var(--operator-bg);
         }
 
         footer {
-            margin-top: 45px auto;
-            background-color: #0066ff;
-            box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5);
+            margin-top: 3em;
+            background-color: var(--operator-bg);
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+            text-align: center;
+            padding: 0.5em 0;
         }
 
         .copyright {
-            text-align: center;
             font-size: 15px;
-            color: black;
-            margin-top: 0.5em;
-            margin-bottom: 0.5em;
+            color: var(--border-color);
         }
 
         .copyright a {
-            color: black;
+            color: var(--border-color);
         }
 
-        @media all and (max-width: 450px) {
+        @media (max-width: 450px) {
             .calculator {
                 width: 80%;
-                max-width: 80%;
             }
         }
     </style>
@@ -256,10 +164,8 @@
         }
 
         function appendToOutput(value) {
-            var output = document.getElementById('output');
-            if (value === '.' && output.innerText.includes('.')) {
-                return;
-            }
+            const output = document.getElementById('output');
+            if (value === '.' && output.innerText.includes('.')) return;
             if (output.innerText === '0' && value !== '.') {
                 output.innerText = value;
             } else {
@@ -268,12 +174,12 @@
         }
 
         function percent() {
-            var output = document.getElementById('output');
+            const output = document.getElementById('output');
             output.innerText = parseFloat(output.innerText) / 100;
         }
 
         function squareRoot() {
-            var output = document.getElementById('output');
+            const output = document.getElementById('output');
             output.innerText = Math.sqrt(parseFloat(output.innerText));
         }
 
@@ -282,31 +188,27 @@
         }
 
         function factorial() {
-            var num = parseInt(document.getElementById('output').innerText, 10);
+            const num = parseInt(document.getElementById('output').innerText, 10);
             if (isNaN(num) || num < 0) {
                 document.getElementById('output').innerText = 'Error';
                 return;
             }
-            var result = 1;
-            for (var i = 2; i <= num; i++) {
+            let result = 1;
+            for (let i = 2; i <= num; i++) {
                 result *= i;
             }
             document.getElementById('output').innerText = result;
         }
 
         function backspace() {
-            var output = document.getElementById('output');
-            if (output.innerText.length === 1) {
-                output.innerText = '0';
-            } else {
-                output.innerText = output.innerText.slice(0, -1);
-            }
+            const output = document.getElementById('output');
+            output.innerText = output.innerText.length === 1 ? '0' : output.innerText.slice(0, -1);
         }
 
         function calculateResult() {
             try {
-                var expression = document.getElementById('output').innerText;
-                var result = math.evaluate(expression);
+                const expression = document.getElementById('output').innerText;
+                const result = math.evaluate(expression);
                 document.getElementById('output').innerText = result;
             } catch (e) {
                 document.getElementById('output').innerText = 'Error';
